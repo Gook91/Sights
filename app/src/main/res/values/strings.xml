@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Sights</string>
+
+    <string name="add_sight">Добавить\nдостопримечательность</string>
+    <string name="go_to_map">Перейти на карту</string>
+
+    <string name="take_photo_button">Сделать фото</string>
+
+    <string name="why_need_permissions">Чтобы сделать и сохранить фотографию достопримечательности, приложению нужен доступ к камере и к памяти устройства. Вы можете дать к ним доступ через настройки устройства</string>
+
+    <string name="sight_saved">Фото достопримечательности сохранено</string>
+
+    <string name="why_need_geo_permissions">Чтобы отображать на карте достопримечательности вокруг вас, приложению требуется доступ к вашим координатам</string>
+    <string name="miss_geo_permissions">Пропустить</string>
+
+    <string name="current_location">Текущее местоположение</string>
+    <string name="zoom_in">Приблизить карту</string>
+    <string name="zoom_out">Отдалить карту</string>
+</resources>
