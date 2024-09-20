@@ -1,7 +1,7 @@
 package com.example.sights.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.example.sights.R
 
 class MainActivity : AppCompatActivity() {

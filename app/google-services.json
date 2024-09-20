@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "659939685222",
+    "project_id": "learning-sights-project",
+    "storage_bucket": "learning-sights-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:659939685222:android:7fb3502bf9295408470ea7",
+        "android_client_info": {
+          "package_name": "com.example.sights"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "659939685222-c40p9ctqeq8hehibc7kg9nbttkdslqdv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqozlHFaZFfN4pUQQqzirQRfa5w3Uc-Aw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "659939685222-c40p9ctqeq8hehibc7kg9nbttkdslqdv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

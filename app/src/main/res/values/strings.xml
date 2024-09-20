@@ -16,4 +16,10 @@
     <string name="current_location">Текущее местоположение</string>
     <string name="zoom_in">Приблизить карту</string>
     <string name="zoom_out">Отдалить карту</string>
+
+    <string name="features_channel_title">Советы по приложению</string>
+    <string name="features_channel_description">Уведомления с советами и хитростями, которые помогут вам раскрыть приложение ещё лучше!</string>
+
+    <string name="show_map_after_photo_notification_title">Отличное фото!</string>
+    <string name="show_map_after_photo_notification_text">Посмотрите на карте, где можно сделать ещё парочку -></string>
 </resources>

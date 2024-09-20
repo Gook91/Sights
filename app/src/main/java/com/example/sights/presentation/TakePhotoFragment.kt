@@ -1,5 +1,7 @@
 package com.example.sights.presentation
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -15,9 +17,12 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.contentValuesOf
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.fragment.findNavController
 import com.example.sights.App
 import com.example.sights.R
@@ -157,6 +162,8 @@ class TakePhotoFragment : Fragment() {
                         override val datePhoto = currentTime
                     }
                     viewModel.addSight(newSight)
+                    // Выводим уведомление
+                    checkAndSendNotifications()
                     // Возвращаемся на предыдущий экран
                     findNavController().navigate(R.id.action_takePhotoFragment_to_listFragment)
                 }
@@ -166,6 +173,52 @@ class TakePhotoFragment : Fragment() {
                     Log.e(LOG_TAG, "Error in save photo: $exception", exception)
                 }
             })
+    }
+
+    // Лаунчер для запроса отправки уведомлений
+    private val requestNotificationLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted)
+        // Если разрешения выданы, то отправляем уведомление
+            sendShowMapNotification()
+    }
+
+    private fun checkAndSendNotifications() {
+        // Если версия SDK андроида ниже 33 или разрешения выданы
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            // Отправляем уведомление
+            sendShowMapNotification()
+        } else
+        // Иначе запрашиваем уведомление на показ уведомлений
+            requestNotificationLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+    }
+
+    // Отправляем уведомление
+    @SuppressLint("UnspecifiedImmutableFlag", "MissingPermission")
+    private fun sendShowMapNotification() {
+        // Создаём направление на фрагмент, который мы хотим открыть
+        val pendingIntent = NavDeepLinkBuilder(requireContext())
+            .setGraph(R.navigation.nav_graph)
+            .setDestination(R.id.mapFragment)
+            .setComponentName(MainActivity::class.java)
+            .createPendingIntent()
+
+        // Создаём уведомление с текстом и intent, который откроет нужный фрагмент
+        val notification = NotificationCompat.Builder(requireContext(), App.CHANNEL_ID)
+            .setSmallIcon(R.drawable.notification_app_icon)
+            .setContentTitle(getString(R.string.show_map_after_photo_notification_title))
+            .setContentText(getString(R.string.show_map_after_photo_notification_text))
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+            .build()
+        // Отправляем уведомление
+        NotificationManagerCompat.from(requireContext()).notify(ID_NOTIFICATION, notification)
     }
 
     override fun onDestroyView() {
@@ -178,12 +231,15 @@ class TakePhotoFragment : Fragment() {
 
         // Список запрашиваемых разрешений
         private val REQUESTED_PERMISSIONS: Array<String> = buildList {
-            add(android.Manifest.permission.CAMERA)
+            add(Manifest.permission.CAMERA)
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P)
-                add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }.toTypedArray()
 
         // Формат имени файла
         private val FILE_NAME_FORMATTER = SimpleDateFormat("yyyy_MM_dd_hh_mm", Locale.US)
+
+        // ID для уведомлений
+        private const val ID_NOTIFICATION = 1
     }
 }

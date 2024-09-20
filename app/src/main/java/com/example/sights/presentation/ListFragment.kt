@@ -42,6 +42,8 @@ class ListFragment : Fragment() {
 
         // Создаём адаптер заголовка списка
         val headerSightAdapter = HeaderSightAdapter {
+            // Исключение для проверки Crashlytics
+            // throw Exception("Test crashlytics exception")
             findNavController().navigate(R.id.action_listFragment_to_takePhotoFragment)
         }
         // Создаём адаптер списка
